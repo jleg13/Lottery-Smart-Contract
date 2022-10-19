@@ -18,8 +18,9 @@ contract Lottery {
         players.push(msg.sender);
     }
 
-    function random() private view returns (uint){
-        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
+    uint counter = 0;
+    function random() private returns (uint){
+        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, counter++)));
     }
 
     function pickWinner() public restricted {
