@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 contract Lottery {
     // public keyword creates a message 'getter'
     address public manager;
-    address[] public players;
+    address payable[] public players;
      
 
     // 'msg' object includes .data, .gas, .sender, .value
@@ -15,7 +15,7 @@ contract Lottery {
     function enter() public payable {
         // require is a validation ie. if falsy function exits
         require(msg.value > .01 ether);
-        players.push(msg.sender);
+        players.push(payable(msg.sender));
     }
 
     uint counter = 0;
@@ -33,7 +33,7 @@ contract Lottery {
         payable(players[index]).transfer(address(this).balance);
 
         // reset players array
-        players = new address[](0);
+        players = new address payable[](0);
     }
 
     // function modifier
@@ -43,7 +43,7 @@ contract Lottery {
         _;
     }
 
-    function getPlayers() public view returns (address[] memory){
+    function getPlayers() public view returns (address payable[] memory){
         return players;
     }
 }
